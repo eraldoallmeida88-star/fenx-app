@@ -36,7 +36,7 @@ jobs:
     - name: Compilar APK com Buildozer
       run: |
         export PATH=$PATH:~/.local/bin
-        yes | buildozer android clean || true
+        rm -rf .buildozer bin
         mkdir -p ~/.android
         touch ~/.android/repositories.cfg
         yes | ${HOME}/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
