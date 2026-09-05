@@ -39,6 +39,11 @@ jobs:
         rm -rf ~/.buildozer bin
         mkdir -p ~/.android
         touch ~/.android/repositories.cfg
+        # Força o download inicial das ferramentas essenciais sem travar
+        yes | buildozer -v android 2>&1 || true
+        # Aceita todas as licenças do SDK do Android automaticamente
+        yes | ${HOME}/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
+        # Executa o build final do APK
         buildozer -v android debug
 
     - name: Salvar o arquivo APK
