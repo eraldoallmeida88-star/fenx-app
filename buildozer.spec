@@ -2,6 +2,7 @@
 title = Fenx infoShop
 package.name = fenxinfoshop
 package.domain = org.fenx
+source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,xlsx
 source.include_patterns = CODIGO VS ENGENHARIA.xlsx
 version = 1.0
