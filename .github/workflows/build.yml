@@ -39,9 +39,13 @@ jobs:
         rm -rf ~/.buildozer bin
         mkdir -p ~/.android
         touch ~/.android/repositories.cfg
-        yes | buildozer -v android debug
+        buildozer -v android debug
 
     - name: Salvar o arquivo APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-apk
+        path: bin/*.apk
       uses: actions/upload-artifact@v4
       with:
         name: app-apk
