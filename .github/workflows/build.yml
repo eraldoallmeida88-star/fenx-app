@@ -39,11 +39,8 @@ jobs:
         rm -rf ~/.buildozer bin
         mkdir -p ~/.android
         touch ~/.android/repositories.cfg
-        # Aceita previamente todas as licenças do Android SDK para evitar bloqueios
-        mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
-        echo -e "\n24333f8a43b681623efc65598d81f0620d4f07a" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
-        echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-preview-license
-        buildozer -v android debug
+        # Executa o buildozer aceitando automaticamente todas as licenças via pipe de yes
+        yes | buildozer -v android debug
 
     - name: Salvar o arquivo APK
       uses: actions/upload-artifact@v4
