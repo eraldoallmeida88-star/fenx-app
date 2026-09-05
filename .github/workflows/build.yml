@@ -1,11 +1,13 @@
-- name: Compilar APK com Buildozer
-      run: |
-        export PATH=$PATH:~/.local/bin
-        yes | buildozer android clean || true
-        mkdir -p ~/.android
-        touch ~/.android/repositories.cfg
-        yes | ${HOME}/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
-        buildozer -v android debug
+name: Compilar APK Android
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
     steps:
     - name: Clonar repositório
       uses: actions/checkout@v4
@@ -34,6 +36,10 @@
     - name: Compilar APK com Buildozer
       run: |
         export PATH=$PATH:~/.local/bin
+        yes | buildozer android clean || true
+        mkdir -p ~/.android
+        touch ~/.android/repositories.cfg
+        yes | ${HOME}/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
         buildozer -v android debug
 
     - name: Salvar o arquivo APK
