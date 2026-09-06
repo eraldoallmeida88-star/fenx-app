@@ -37,9 +37,9 @@ jobs:
         rm -rf ~/.buildozer .buildozer bin
         mkdir -p ~/.android
         touch ~/.android/repositories.cfg
-        # Força o Buildozer a usar a API 24 na marra via variável de ambiente
+        # Força o Buildozer a usar a API 24 explicitamente na linha de comando
         export P4A_ANDROID_MIN_API=24
-        yes | buildozer -v android debug
+        yes | buildozer --profile default -v android debug --ndk-api=24
 
     - name: Salvar o arquivo APK
       uses: actions/upload-artifact@v4
