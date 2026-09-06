@@ -1,5 +1,3 @@
-name: Compilar APK Android
-
 on:
   push:
     branches: [ main ]
@@ -36,7 +34,7 @@ jobs:
     - name: Compilar APK com Buildozer
       run: |
         export PATH=$PATH:~/.local/bin
-        rm -rf ~/.buildozer bin
+        rm -rf ~/.buildozer .buildozer bin
         mkdir -p ~/.android
         touch ~/.android/repositories.cfg
         # Executa o buildozer aceitando automaticamente todas as licenças via pipe de yes
