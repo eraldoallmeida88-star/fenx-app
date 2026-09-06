@@ -37,7 +37,8 @@ jobs:
         rm -rf ~/.buildozer .buildozer bin
         mkdir -p ~/.android
         touch ~/.android/repositories.cfg
-        # Executa o buildozer aceitando automaticamente todas as licenças via pipe de yes
+        # Força o Buildozer a usar a API 24 na marra via variável de ambiente
+        export P4A_ANDROID_MIN_API=24
         yes | buildozer -v android debug
 
     - name: Salvar o arquivo APK
