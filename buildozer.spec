@@ -55,7 +55,7 @@ fullscreen = 0
 android.sdk = 33
 
 # (string) The Android min API version
-android.min_api = 21
+android.min_api = 24
 
 # (string) The Android target API version
 android.target_api = 33
