@@ -2,14 +2,11 @@ import os
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.recyclerview import RecyclerView
+from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.properties import ListProperty
 import pandas as pd
-
-class ResultadoRow(BoxLayout):
-    pass
 
 class MaterialApp(App):
     resultados_data = ListProperty([])
@@ -18,7 +15,7 @@ class MaterialApp(App):
         self.title = "Fênx infoShop"
         self.df = None
         
-        # Carrega a planilha embutida no APK
+        # Carrega a planilha embutida no APK de forma segura
         try:
             caminho_excel = "CODIGO VS ENGENHARIA.xlsx"
             if os.path.exists(caminho_excel):
@@ -27,11 +24,11 @@ class MaterialApp(App):
                 self.df['Cód. Interno Material'] = self.df['Cód. Interno Material'].astype(str).str.strip()
                 self.df['Desc. Material'] = self.df['Desc. Material'].astype(str).str.strip()
         except Exception as e:
-            pass
+            print(f"Erro ao carregar planilha: {e}")
 
         root = BoxLayout(orientation='vertical', padding=15, spacing=10)
         
-        # Título
+        # Título e Cabeçalho
         root.add_widget(Label(text="Fênx infoShop", font_size=24, bold=True, size_hint_y=None, height=40))
         root.add_widget(Label(text="Consulta de Engenharia Offline", font_size=14, color=(0.5,0.5,0.5,1), size_hint_y=None, height=25))
 
@@ -49,8 +46,6 @@ class MaterialApp(App):
         # Lista de Resultados
         self.rv = RecyclerView(size_hint=(1, 1))
         self.rv.viewclass = 'Label'
-        # Usamos uma estrutura simples de visualização para a lista
-        from kivy.uix.recycleboxlayout import RecycleBoxLayout
         self.rv.layout_manager = RecycleBoxLayout(orientation='vertical', default_size=(None, 80), default_size_hint=(1, None), size_hint_y=None)
         self.rv.layout_manager.bind(minimum_height=self.rv.layout_manager.setter('height'))
         
@@ -74,7 +69,7 @@ class MaterialApp(App):
         dados_tela = []
         for index, row in res.head(20).iterrows():
             texto_item = f"Cód: {row['Cód. Material']} | Int: {row['Cód. Interno Material']}\nDesc: {row['Desc. Material']}"
-            dados_tela.append({'text': texto_item, 'size_hint_y': None, 'height': 75, 'color': (0,0,0,1)})
+            dados_tela.append({'text': texto_item, 'size_hint_y': None, 'height': 75, 'color': (1,1,1,1)})
 
         self.rv.data = dados_tela
 
