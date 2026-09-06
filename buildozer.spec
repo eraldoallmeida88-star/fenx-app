@@ -31,8 +31,8 @@ source.exclude_patterns = license, images/*.jpg
 source.include_patterns = CODIGO VS ENGENHARIA.xlsx
 
 # (list) Application requirements
-# Inclui o Python 3, Kivy, Pandas, Openpyxl e NumPy para leitura e processamento offline da planilha
-requirements = python3,kivy,pandas,openpyxl,numpy
+# Pandas e Openpyxl são suficientes para ler a planilha Excel sem os conflitos do NumPy no Android
+requirements = python3,kivy,pandas,openpyxl
 
 # (str) Supported orientations
 orientation = portrait
@@ -56,6 +56,9 @@ android.sdk = 33
 
 # (string) The Android min API version
 android.min_api = 24
+
+# (string) The Android NDK API version explicitly required for compilation
+android.ndk_api = 24
 
 # (string) The Android target API version
 android.target_api = 33
