@@ -1,75 +1,49 @@
-[app]
+on:
+  push:
+    branches: [ main ]
 
-# (str) Title of your application
-title = Fênx Gestão e Controle
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-# (str) Package name
-package.name = fenxingestaoecontrole
+    steps:
+    - name: Clonar repositório
+      uses: actions/checkout@v4
 
-# (str) Package domain (needed for android packaging)
-package.domain = org.fenx
+    - name: Configurar Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
 
-# (str) Source directory where the application lives
-source.dir = .
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
 
-# (str) Application versioning (version numbering)
-version = 0.1
+    - name: Instalar dependências do Buildozer
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+            git zip unzip openjdk-17-jdk python3-pip autoconf automake libtool pkg-config \
+            zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev \
+            libssl-dev gettext autopoint libltdl-dev build-essential
+        pip install --upgrade pip setuptools
+        pip install --user "cython==0.29.36" "buildozer==1.5.0"
 
-# (list) Source files to include (letting it know about the excel spreadsheet)
-source.include_exts = py,png,jpg,kv,atlas,xlsx
+    - name: Compilar APK com Buildozer
+      run: |
+        export PATH=$PATH:~/.local/bin
+        # Limpa completamente qualquer cache antigo do buildozer e pastas de compilação
+        rm -rf ~/.buildozer .buildozer bin
+        mkdir -p ~/.android
+        touch ~/.android/repositories.cfg
+        # Garante que a API 24 seja injetada diretamente no ambiente do python-for-android
+        export P4A_ANDROID_MIN_API=24
+        yes | buildozer -v android debug
 
-# (list) Source files to exclude (letting it know to exclude unnecessary files)
-source.exclude_exts = spec
-
-# (list) List of directory to exclude
-source.exclude_dirs = bin, venv, .git, .github
-
-# (list) List of exclusions
-source.exclude_patterns = license, images/*.jpg
-
-# (list) Specify the inclusion pattern for files/directories
-source.include_patterns = CODIGO VS ENGENHARIA.xlsx
-
-# (list) Application requirements
-# Inclui o Python 3, Kivy, Pandas, Openpyxl e NumPy para leitura e processamento offline da planilha
-requirements = python3,kivy,pandas,openpyxl,numpy
-
-# (str) Supported orientations
-orientation = portrait
-
-# (list) List of service to declare
-#services = 
-
-#
-# OSX Specific
-#
-
-#
-# Android specific
-#
-
-# (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
-
-# (string) Preslash for Android sdk (e.g. --sdk_version)
-android.sdk = 33
-
-# (string) The Android min API version
-android.min_api = 24
-
-# (string) The Android target API version
-android.target_api = 33
-
-# (str) Android architectural build types (arm64-v8a is required for modern Android devices)
-android.archs = arm64-v8a
-
-# (bool) Use AndroidX for support libraries
-android.androidx = True
-
-[buildozer]
-
-# (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
-log_level = 2
-
-# (int) Display warning if buildozer is run as root (0 = False, 1 = True)
-warn_root = 1
+    - name: Salvar o arquivo APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-apk
+        path: bin/*.apk
