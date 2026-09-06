@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = Fênx infoShop
+title = Fênx Gestão e Controle
 
 # (str) Package name
-package.name = fenxinfoshop
+package.name = fenxingestaoecontrole
 
 # (str) Package domain (needed for android packaging)
 package.domain = org.fenx
