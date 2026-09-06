@@ -9,6 +9,12 @@ package.name = fenxinfoshop
 # (str) Package domain (needed for android packaging)
 package.domain = org.fenx
 
+# (str) Source directory where the application lives
+source.dir = .
+
+# (str) Application versioning (version numbering)
+version = 0.1
+
 # (list) Source files to include (letting it know about the excel spreadsheet)
 source.include_exts = py,png,jpg,kv,atlas,xlsx
 
