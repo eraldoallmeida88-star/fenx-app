@@ -61,7 +61,6 @@ android.min_api = 24
 android.ndk_api = 24
 
 # (string) The Android target API version
-android.target_api = 33
 
 # (str) Android architectural build types (arm64-v8a is required for modern Android devices)
 android.archs = arm64-v8a
